@@ -31,6 +31,7 @@ main()
   show_synchronize_panes_label=$(get_tmux_option "@monokai-synchronize-panes-label" "Sync")
   time_format=$(get_tmux_option "@monokai-time-format" "")
   show_ssh_session_port=$(get_tmux_option "@monokai-show-ssh-session-port" false)
+  next_event_calendars=$(get_tmux_option "@monokai-next-event-calendars" "")
   IFS=' ' read -r -a plugins <<< $(get_tmux_option "@monokai-plugins" "network-ping cpu-usage ram-usage")
   show_empty_plugins=$(get_tmux_option "@monokai-show-empty-plugins" true)
 
@@ -271,6 +272,10 @@ main()
     elif [ $plugin = "ssh-session" ]; then
       IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-ssh-session-colors" "green black")
       script="#($current_dir/ssh_session.sh $show_ssh_session_port)"
+
+    elif [ $plugin = "next_event" ]; then
+      IFS=' ' read -r -a colors <<< $(get_tmux_option "@monokai-next-event-colors" "blue black")
+      script="#($current_dir/next_event.sh $next_event_calendars)"
 
     else
       continue
